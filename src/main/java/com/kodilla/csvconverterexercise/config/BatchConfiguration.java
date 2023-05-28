@@ -1,14 +1,19 @@
 package com.kodilla.csvconverterexercise.config;
 
 import com.kodilla.csvconverterexercise.domain.PersonIn;
+import com.kodilla.csvconverterexercise.domain.PersonOut;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
+import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -49,6 +54,28 @@ public class BatchConfiguration {
     @Bean
     PersonProcessor processor() {
         return new PersonProcessor();
+    }
+
+    @Bean
+    FlatFileItemWriter<PersonOut> writer() {
+        //extractor
+        BeanWrapperFieldExtractor<PersonOut> extractor = new BeanWrapperFieldExtractor<>();
+        //set field names
+        extractor.setNames(new String[] {"name", "lastName", "age"});
+
+        //set line aggregator to write item to a line
+        DelimitedLineAggregator<PersonOut> aggregator = new DelimitedLineAggregator<>();
+        aggregator.setDelimiter(",");
+        aggregator.setFieldExtractor(extractor);
+
+
+        FlatFileItemWriter<PersonOut> writer = new FlatFileItemWriter<>();
+        //writer target
+        writer.setResource(new FileSystemResource("output.csv"));
+        writer.setShouldDeleteIfExists(true);
+        writer.setLineAggregator(aggregator);
+
+        return writer;
     }
 
 }
