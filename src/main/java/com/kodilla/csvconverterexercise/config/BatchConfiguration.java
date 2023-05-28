@@ -25,6 +25,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
+
 public class BatchConfiguration {
 
     private final JobRepository jobRepository;
