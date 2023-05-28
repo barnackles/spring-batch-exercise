@@ -1,14 +1,15 @@
 package com.kodilla.csvconverterexercise.domain;
 
-import java.time.LocalDate;
-
 public class PersonIn {
 
-    private final String name;
-    private final String lastName;
-    private final LocalDate dateOfBirth;
+    private String name;
+    private String lastName;
+    private String dateOfBirth;
 
-    public PersonIn(String name, String lastName, LocalDate dateOfBirth) {
+    public PersonIn() {
+    }
+
+    public PersonIn(String name, String lastName, String dateOfBirth) {
         this.name = name;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -22,7 +23,19 @@ public class PersonIn {
         return lastName;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

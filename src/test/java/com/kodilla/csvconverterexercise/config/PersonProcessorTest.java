@@ -2,8 +2,6 @@ package com.kodilla.csvconverterexercise.config;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PersonProcessorTest {
@@ -15,9 +13,9 @@ class PersonProcessorTest {
         PersonProcessor processor = new PersonProcessor();
 
         //given
-        LocalDate dateOfBirth1 = LocalDate.of(1920, 1, 1);
-        LocalDate dateOfBirth2 = LocalDate.of(1965, 4, 18);
-        LocalDate dateOfBirth3 = LocalDate.of(1989, 12, 15);
+        String dateOfBirth1 = "1920-01-01";
+        String dateOfBirth2 = "1965-05-07";
+        String dateOfBirth3 = "1989-12-15";
 
         // when
         int age1 = processor.calculateAge(dateOfBirth1);
