@@ -2,7 +2,12 @@ package com.kodilla.csvconverterexercise.config;
 
 import com.kodilla.csvconverterexercise.domain.PersonIn;
 import com.kodilla.csvconverterexercise.domain.PersonOut;
+import org.springframework.batch.core.Step;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -76,6 +81,20 @@ public class BatchConfiguration {
         writer.setLineAggregator(aggregator);
 
         return writer;
+    }
+
+    @Bean
+    Step calculateAge(
+            ItemReader<PersonIn> reader,
+            ItemProcessor<PersonIn, PersonOut> processor,
+            ItemWriter<PersonOut> writer) {
+
+        return new StepBuilder("calculateAge", jobRepository)
+                .<PersonIn , PersonOut>chunk(100, transactionManager)
+                .reader(reader)
+                .processor(processor)
+                .writer(writer)
+                .build();
     }
 
 }
