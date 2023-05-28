@@ -45,4 +45,10 @@ public class BatchConfiguration {
         reader.setLineMapper(lineMapper);
         return reader;
     }
+
+    @Bean
+    PersonProcessor processor() {
+        return new PersonProcessor();
+    }
+
 }
