@@ -2,7 +2,10 @@ package com.kodilla.csvconverterexercise.config;
 
 import com.kodilla.csvconverterexercise.domain.PersonIn;
 import com.kodilla.csvconverterexercise.domain.PersonOut;
+import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
@@ -94,6 +97,15 @@ public class BatchConfiguration {
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
+                .build();
+    }
+
+    @Bean
+    Job calculateAgeJob(Step calculateAge) {
+        return new JobBuilder("calculateAgeJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .flow(calculateAge)
+                .end()
                 .build();
     }
 
